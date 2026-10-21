@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 20
       - run: sh scripts/build.sh   # refreshes docs/mailsort.zip so the button always matches the code
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs
       - id: deployment
