@@ -1,0 +1,285 @@
+{
+  "conditions": {
+    "from": {
+      "type": "strings",
+      "help": "sender address, @domain or name",
+      "gmail": "from:",
+      "page": "exact",
+      "filter": "yes",
+      "examples": [
+        "from my bank",
+        "emails from linkedin"
+      ]
+    },
+    "to": {
+      "type": "strings",
+      "help": "recipient address",
+      "gmail": "to:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "sent to my work address"
+      ]
+    },
+    "subject_has": {
+      "type": "strings",
+      "help": "words in the subject (any of)",
+      "gmail": "subject:",
+      "page": "exact",
+      "filter": "yes",
+      "examples": [
+        "subject says invoice"
+      ]
+    },
+    "text_has": {
+      "type": "strings",
+      "help": "words anywhere in the mail (any of)",
+      "gmail": "words",
+      "page": "approx",
+      "filter": "yes",
+      "examples": [
+        "mentions refund"
+      ],
+      "note": "the page only sees the subject and preview line"
+    },
+    "text_lacks": {
+      "type": "strings",
+      "help": "words that must NOT appear (any of)",
+      "gmail": "-words",
+      "page": "approx",
+      "filter": "yes",
+      "examples": [
+        "doesn't mention unsubscribe"
+      ]
+    },
+    "has_attachment": {
+      "type": "bool",
+      "help": "has an attachment",
+      "gmail": "has:attachment",
+      "page": "approx",
+      "filter": "yes",
+      "examples": [
+        "with attachments"
+      ],
+      "note": "the page detects the paperclip icon on a best-effort basis"
+    },
+    "filename": {
+      "type": "string",
+      "help": "attachment file name or type",
+      "gmail": "filename:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "a pdf attached"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "help": "a Gmail label",
+      "gmail": "label:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "under my Work label"
+      ]
+    },
+    "category": {
+      "type": "enum",
+      "values": [
+        "primary",
+        "social",
+        "promotions",
+        "updates",
+        "forums",
+        "reservations",
+        "purchases"
+      ],
+      "help": "Gmail's own category tab",
+      "gmail": "category:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "in promotions"
+      ]
+    },
+    "status": {
+      "type": "enum",
+      "values": [
+        "unread",
+        "read",
+        "starred",
+        "important",
+        "muted"
+      ],
+      "help": "read or marked state",
+      "gmail": "is:",
+      "page": "partial",
+      "filter": "yes",
+      "examples": [
+        "unread mail"
+      ],
+      "note": "the page only knows unread and read"
+    },
+    "location": {
+      "type": "enum",
+      "values": [
+        "inbox",
+        "archive",
+        "snoozed",
+        "trash",
+        "sent",
+        "drafts",
+        "spam",
+        "anywhere"
+      ],
+      "help": "where the mail is",
+      "gmail": "in:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "in the archive"
+      ]
+    },
+    "mailing_list": {
+      "type": "string",
+      "help": "a mailing list address",
+      "gmail": "list:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "from the dev mailing list"
+      ]
+    },
+    "size": {
+      "type": "size",
+      "help": "larger or smaller than N megabytes",
+      "gmail": "larger:/smaller:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "bigger than 10 MB"
+      ]
+    },
+    "age": {
+      "type": "age",
+      "help": "older or newer than N days, months or years",
+      "gmail": "older_than:/newer_than:",
+      "page": "no",
+      "filter": "yes",
+      "examples": [
+        "older than 6 months"
+      ]
+    },
+    "sender_kind": {
+      "type": "enum",
+      "values": [
+        "person",
+        "bulk",
+        "automated"
+      ],
+      "help": "mailsort's own guess at who is sending",
+      "gmail": null,
+      "page": "exact",
+      "filter": "no",
+      "examples": [
+        "from a real person"
+      ]
+    }
+  },
+  "actions": {
+    "label": {
+      "risk": "safe",
+      "params": {
+        "name": "label"
+      },
+      "page": "exact",
+      "filter": "yes",
+      "help": "file under a label or category (Work/Clients)"
+    },
+    "notify": {
+      "risk": "safe",
+      "params": {
+        "mode": [
+          "always",
+          "never",
+          "urgent"
+        ]
+      },
+      "page": "exact",
+      "filter": "approx",
+      "help": "decide whether you are alerted",
+      "note": "a Gmail filter can only mark such mail important"
+    },
+    "star": {
+      "risk": "safe",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "star it"
+    },
+    "mark_important": {
+      "risk": "safe",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "always mark important"
+    },
+    "mark_not_important": {
+      "risk": "safe",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "never mark important"
+    },
+    "never_spam": {
+      "risk": "safe",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "never send to spam"
+    },
+    "archive": {
+      "risk": "confirm",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "skip the inbox"
+    },
+    "mark_read": {
+      "risk": "confirm",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "mark as read"
+    },
+    "trash": {
+      "risk": "confirm_twice",
+      "params": {},
+      "page": "no",
+      "filter": "yes",
+      "help": "move to Trash (Gmail keeps it 30 days)"
+    }
+  },
+  "blocked": {
+    "forward": "forwarding can send your mail to someone else",
+    "auto_reply": "it would send mail in your name",
+    "send_template": "it would send mail in your name",
+    "send_email": "it would send mail in your name",
+    "delete_forever": "permanent deletion cannot be undone",
+    "delete_permanently": "permanent deletion cannot be undone",
+    "delete": "use trash instead: it keeps mail for 30 days and asks you twice",
+    "change_forwarding": "it could redirect all your mail",
+    "delegate": "it would give someone access to your mailbox",
+    "share_mailbox": "it would give someone access to your mailbox",
+    "change_password": "account security is out of scope",
+    "unsubscribe": "unsubscribing contacts the sender, so you do it yourself"
+  },
+  "limits": {
+    "depth": 4,
+    "nodes": 14,
+    "strings": 8,
+    "str": 80,
+    "name": 60,
+    "then": 6
+  }
+}

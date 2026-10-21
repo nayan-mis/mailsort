@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "mailsort - inbox organizer for Gmail & Yahoo Mail",
+  "short_name": "mailsort",
+  "version": "0.9.0",
+  "description": "Rule-based (no AI) categories, subcategories, tags, spam flags and per-sender notifications inside Gmail and Yahoo Mail.",
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms",
+    "offscreen"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://mail.yahoo.com/*",
+    "https://*.mail.yahoo.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://mail.yahoo.com/*",
+        "https://*.mail.yahoo.com/*"
+      ],
+      "js": [
+        "src/core/engine.js",
+        "src/core/learner.js",
+        "src/core/commands.js",
+        "src/content/content.js",
+        "src/content/chat.js"
+      ],
+      "css": [
+        "src/content/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "src/pages/popup.html",
+    "default_title": "mailsort"
+  },
+  "options_page": "src/pages/options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "optional_host_permissions": [
+    "https://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}

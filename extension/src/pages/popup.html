@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;width:300px;font:13px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1c1c1e;background:#fff}@media(prefers-color-scheme:dark){body{background:#1d1e22;color:#e9e9ec}}
+.p{padding:12px 14px}h1{font-size:15px;margin:0 0 8px}.modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+button{font:inherit;cursor:pointer;border:1px solid #d9d9de;background:#f6f6f8;color:inherit;border-radius:8px;padding:6px 8px}@media(prefers-color-scheme:dark){button{background:#303134;border-color:#3c4043}}
+button.on{background:#2563eb;border-color:#2563eb;color:#fff}.m{color:#6b6b73;font-size:12px;margin:6px 0}.ok{color:#2e7d32}.err{color:#c62828}pre{white-space:pre-wrap;font:11px/1.4 ui-monospace,monospace;margin:6px 0 0}
+</style></head><body><div class="p"><h1>mailsort</h1><div class="modes" id="modes"></div>
+<label><input type="checkbox" id="pause"> Pause everything</label><div id="where" class="m"></div><div id="acc" class="m"></div><div id="status" class="m"></div>
+<div style="display:flex;gap:6px;margin-top:8px"><button id="diag">Check this page</button><button id="opts">Settings</button></div><pre id="out"></pre></div>
+<script src="../core/engine.js"></script><script src="popup.js"></script></body></html>

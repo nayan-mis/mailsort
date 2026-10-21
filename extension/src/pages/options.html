@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>mailsort settings</title>
+<style>
+:root{--bg:#fff;--fg:#1c1c1e;--muted:#6b6b73;--line:#e4e4e8;--card:#f6f6f8;--accent:#2563eb;--bad:#c62828;--good:#2e7d32}
+@media(prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e9e9ec;--muted:#9b9ba4;--line:#2b2c31;--card:#1d1e22;--accent:#6ea8ff;--bad:#ff7b72;--good:#5fd18a}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+header{padding:14px 20px;border-bottom:1px solid var(--line)}h1{font-size:18px;margin:0}nav{display:flex;gap:2px;flex-wrap:wrap;padding:8px 20px;border-bottom:1px solid var(--line)}
+nav button{background:none;border:0;padding:7px 12px;border-radius:7px;color:var(--muted);cursor:pointer;font:inherit}nav button.on{background:var(--card);color:var(--fg);font-weight:600}
+main{padding:20px;max-width:900px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}.card h3{margin:0 0 8px;font-size:15px}
+button.b{background:var(--accent);color:#fff;border:0;border-radius:7px;padding:6px 13px;cursor:pointer;font:inherit}button.g{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:5px 10px;cursor:pointer;font:inherit;color:inherit}
+button.d{background:none;border:1px solid var(--line);color:var(--bad);border-radius:7px;padding:5px 10px;cursor:pointer;font:inherit}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 9px;font:inherit;color:inherit}textarea{width:100%;font:12px ui-monospace,Menlo,monospace}
+label.f{display:block;margin:8px 0 3px;font-size:12px;color:var(--muted)}.muted{color:var(--muted);font-size:12px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.grid2{grid-template-columns:1fr}}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.chip{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin:2px 3px 2px 0;font-size:12px}.chip a{text-decoration:none;color:var(--bad)}
+.ok{color:var(--good)}.err{color:var(--bad)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:9px;opacity:0;pointer-events:none;transition:.2s}
+.toast.show{opacity:1}.toast.bad{background:var(--bad);color:#fff}pre{white-space:pre-wrap;font:11px/1.45 ui-monospace,Menlo,monospace}
+#savebar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;background:var(--card);border-top:1px solid var(--line);z-index:5}
+#savebar[hidden]{display:none}main{padding-bottom:70px}.steps{margin:6px 0 0;padding-left:20px}.steps li{margin:6px 0}
+</style></head><body><header><h1>mailsort settings</h1></header><nav id="nav"></nav><main id="main"></main><div id="savebar" hidden><span>You have unsaved changes</span><button class="b" id="savebtn">Save</button><button class="g" id="discardbtn">Discard</button></div><div id="toast" class="toast"></div>
+<script src="../core/engine.js"></script><script src="../core/learner.js"></script><script src="options.js"></script></body></html>

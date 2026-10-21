@@ -1,0 +1,14 @@
+node_modules/
+dist/
+tests/browser/shots/
+__pycache__/
+.DS_Store
+.env
+*.pem
+*.key
+
+# Optional model files and library: add them locally, do not commit large weights
+extension/vendor/*
+!extension/vendor/README.md
+extension/models/*
+!extension/models/README.md

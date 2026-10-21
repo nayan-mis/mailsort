@@ -1,0 +1,61 @@
+name: Bug report
+description: Something does not work, or the Gmail or Yahoo page layout seems to have changed
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Please do not paste real email content, addresses or names.** Describe the structure instead.
+  - type: dropdown
+    id: site
+    attributes:
+      label: Where did it happen?
+      options:
+        - Gmail
+        - Yahoo Mail
+        - Settings page or toolbar popup
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 130 on Windows 11
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: mailsort version
+      description: Shown for the extension on chrome://extensions
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: check
+    attributes:
+      label: What does "Check this page" say?
+      description: >-
+        Click the toolbar icon, then Check this page. Paste only the first line (for example "gmail: found 50 emails, badges on 0").
+        The lines below it contain the sender and subject of real emails, so leave them out.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I have not pasted real email content, addresses or names.
+          required: true

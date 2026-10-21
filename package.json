@@ -1,0 +1,16 @@
+{
+  "name": "mailsort",
+  "version": "0.9.0",
+  "private": true,
+  "description": "A free, private inbox organizer for Gmail and Yahoo Mail. Everything runs in your browser.",
+  "license": "MIT",
+  "homepage": "https://github.com/nayan-mis/mailsort#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/nayan-mis/mailsort.git" },
+  "bugs": { "url": "https://github.com/nayan-mis/mailsort/issues" },
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node tests/run-all.js",
+    "build": "sh scripts/build.sh",
+    "docs": "node scripts/export-catalog.js"
+  }
+}

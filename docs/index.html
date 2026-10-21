@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>mailsort</title>
+<meta name="description" content="Sort your Gmail and Yahoo inbox with a free extension. No agent, no server.">
+<style>
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:#fff;color:#111;font:18px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center}
+header,footer{padding:32px 20px}
+header{font-size:1.1rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+main{padding:0 20px}
+h1{margin:0 0 28px;font-size:clamp(3rem,12vw,6.5rem);line-height:1;letter-spacing:-.04em}
+#next{margin:34px auto 0;max-width:400px;text-align:left;font-size:.98rem;color:#333}
+#next[hidden]{display:none}
+#next b.t{display:block;margin-bottom:6px;font-size:1.05rem;color:#111}
+#next ol{margin:0 0 10px;padding-left:1.3em}
+#next li{margin:6px 0}
+#next code{background:#f2f2f2;padding:1px 6px;border-radius:5px;font-size:.9em}
+#next button{font:inherit;font-size:.85rem;margin-left:4px;padding:2px 9px;border-radius:7px;border:1px solid #ccc;background:#fff;cursor:pointer}
+#next .fine{color:#777;font-size:.88rem}
+footer{max-width:640px;color:#555;font-size:1rem}
+footer a{color:#111}
+
+/* the button: black ink on top, green glass underneath, circles of ink dissolve on hover */
+a.btn{position:relative;display:inline-block;overflow:hidden;isolation:isolate;padding:16px 34px;border-radius:10px;font-weight:600;font-size:1.05rem;text-decoration:none;color:#fff;transition:color .9s ease,box-shadow .9s ease}
+a.btn .glass{position:absolute;inset:0;z-index:-2;border-radius:inherit;
+  background:linear-gradient(135deg,rgba(74,222,128,.55),rgba(16,185,129,.32));
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(22,163,74,.55)}
+a.btn svg.ink{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+a.btn.on{color:#064e2b;box-shadow:0 10px 28px rgba(22,163,74,.28)}
+a.btn:focus-visible{outline:3px solid #2563eb;outline-offset:3px}
+</style>
+</head>
+<body>
+<header>mailsort</header>
+<main>
+  <h1>Sort your mail.</h1>
+  <a class="btn" id="dl" href="mailsort.zip" download>
+    <span class="glass"></span>
+    <svg class="ink" aria-hidden="true"><defs><mask id="inkMask"><rect id="inkFull" fill="#fff"/><g id="holes" fill="#000"></g></mask></defs><rect id="inkBlack" fill="#000" mask="url(#inkMask)"/></svg>
+    Download mailsort
+  </a>
+  <div id="next" hidden>
+    <b class="t">Downloaded. Now the forty-second part.</b>
+    <ol>
+      <li>Unzip it. Right-click, Extract. Yes, really.</li>
+      <li>Paste <code>chrome://extensions</code> into the address bar <button type="button" id="copyBtn">Copy</button><br><span class="fine">Edge: <code>edge://extensions</code>. Websites aren't allowed to open that page for you.</span></li>
+      <li>Switch on <b>Developer mode</b>, hit <b>Load unpacked</b>, pick the <code>mailsort-extension</code> folder.</li>
+    </ol>
+    <div class="fine">Then open Gmail. Chrome may grumble about developer mode when it starts. That's Chrome being Chrome. Say keep.</div>
+  </div>
+</main>
+<footer>
+  You don't need a damn agent to manage your Gmail inbox. You can do it with an extension too.<br>
+  <a id="src" href="https://github.com/nayan-mis/mailsort">Source code</a>
+</footer>
+
+<script>
+(function () {
+  // Once mailsort is in the Chrome Web Store, paste its address here. The button then opens the store page,
+  // where "Add to Chrome" is the whole install. Until then it downloads the zip.
+  var STORE_URL = "";
+  var btn = document.getElementById("dl"), holes = document.getElementById("holes");
+  var full = document.getElementById("inkFull"), black = document.getElementById("inkBlack");
+  var svg = btn.querySelector("svg.ink");
+  if (STORE_URL) { btn.href = STORE_URL; btn.removeAttribute("download"); }
+
+  // When this page lives at <name>.github.io/<repo>, point "Source code" at that repo by itself.
+  var gh = location.hostname.match(/^([^.]+)\.github\.io$/);
+  if (gh) document.getElementById("src").href = "https://github.com/" + gh[1] + "/" + (location.pathname.split("/")[1] || gh[1] + ".github.io");
+
+  // Show the install steps after a click, so the first view stays clean. Not needed once STORE_URL is set.
+  var next = document.getElementById("next");
+  btn.addEventListener("click", function () { if (!STORE_URL) next.hidden = false; });
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var b = this, ok = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText("chrome://extensions").then(ok, function () {});
+  });
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var circles = [], running = false;
+  var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+  var rand = function (a, b) { return a + Math.random() * (b - a); };
+
+  function build() {
+    var w = btn.offsetWidth, h = btn.offsetHeight, diag = Math.hypot(w, h);
+    svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+    [full, black].forEach(function (r) { r.setAttribute("width", w); r.setAttribute("height", h); });
+    holes.innerHTML = ""; circles = [];
+    function add(cx, cy, maxR) {
+      var el = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      el.setAttribute("cx", cx); el.setAttribute("cy", cy); el.setAttribute("r", 0);
+      holes.appendChild(el);
+      circles.push({ el: el, r: 0, from: 0, to: 0, t0: 0, delay: 0, dur: 1, max: maxR });
+    }
+    for (var i = 0; i < 20; i++) add(rand(0, w), rand(0, h), rand(0.12, 0.6) * diag);   // random drops of all sizes
+    for (var j = 0; j < 3; j++) add(rand(0, w), rand(0, h), diag * 1.1);                // a few big ones so nothing stays black
+  }
+
+  function go(open) {
+    if (!circles.length) build();
+    var now = performance.now();
+    btn.classList.toggle("on", open);
+    circles.forEach(function (c) {
+      c.from = c.r; c.to = open ? c.max : 0; c.t0 = now;
+      if (reduce) { c.delay = 0; c.dur = 1; }
+      else if (open) { c.delay = rand(0, 500); c.dur = rand(500, 1500); }
+      else { c.delay = rand(0, 250); c.dur = rand(300, 900); }
+    });
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+
+  function tick(now) {
+    var busy = false;
+    circles.forEach(function (c) {
+      var t = (now - c.t0 - c.delay) / c.dur;
+      if (t < 1) busy = true;
+      t = Math.max(0, Math.min(1, t));
+      c.r = c.from + (c.to - c.from) * ease(t);
+      c.el.setAttribute("r", c.r.toFixed(1));
+    });
+    if (busy) requestAnimationFrame(tick); else running = false;
+  }
+
+  btn.addEventListener("mouseenter", function () { go(true); });
+  btn.addEventListener("mouseleave", function () { go(false); });
+  btn.addEventListener("focus", function () { go(true); });
+  btn.addEventListener("blur", function () { go(false); });
+  window.addEventListener("resize", function () { if (!running) { circles = []; build(); } });
+  build();
+})();
+</script>
+</body>
+</html>
